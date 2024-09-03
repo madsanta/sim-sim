@@ -6,7 +6,7 @@
                     "type": "ozonic",
                     "title": "Коллеги, мы прибыли<br> на Озонику.",
                     "description": "Этот прекрасный мир располагается выше облаков!<br> Здесь ярко и свежо, но погода настолько<br> переменчива, что может негативно влиять на&nbsp;состояние&nbsp;больных.",
-                    "video": "https://vjs.zencdn.net/v/oceans.mp4",
+                    "video": "/videos/branch1/intro.mp4",
                     "expert": "Курбачева",
                     "questions": [1,2]
                 },
@@ -53,7 +53,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-1.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -75,7 +75,7 @@
                     "success": {
                         "title": "Оба замка сняты",
                         "description": "Нам открыт проход во вселенную кошачьих под названием <span>Котур</span>",
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-2.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -113,7 +113,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-3.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -147,7 +147,7 @@
                     "success": {
                         "title": "Замки открыты!",
                         "description": "Пройдя через дверь, мы попадем <span>в&nbsp;самый таинственный из миров — Триггерон</span>",
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-4.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -171,7 +171,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-5.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -198,7 +198,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch1/question-6.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -213,7 +213,7 @@
                     "type": "smoglus",
                     "title": "Коллеги, мы прибыли<br> на Смогулус.",
                     "description": "Город технологий, который, к&nbsp;сожалению, загрязнен и&nbsp;опасен для больных бронхиальной астмой.",
-                    "video": "https://vjs.zencdn.net/v/oceans.mp4",
+                    "video": "/videos/branch2/intro.mp4",
                     "expert": "Айсанов",
                     "questions": [1,2]
                 },
@@ -267,7 +267,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch2/question-1.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -303,7 +303,7 @@
                     "success": {
                         "title": "Оба замка сняты",
                         "description": "Нам открыт проход во&nbsp;вселенную <span>Аллергенезиум</span>",
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch2/question-2.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -324,7 +324,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch2/question-3.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -359,7 +359,7 @@
                     "success": {
                         "title": "Замки открыты!",
                         "description": "Оденьтесь потеплее и&nbsp;шагнем в&nbsp;третий и&nbsp;последний в&nbsp;путешествии мир <span>Винтериус<span>",
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch2/question-4.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",
@@ -391,7 +391,7 @@
                         }
                     ],
                     "success": {
-                        "video": "https://vjs.zencdn.net/v/oceans.mp4"
+                        "video": "/videos/branch2/question-5.mp4"
                     },
                     "failed": {
                         "title": "Ответ неверный",

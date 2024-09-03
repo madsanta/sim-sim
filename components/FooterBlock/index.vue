@@ -17,15 +17,12 @@
             </div>
             <div :class="$style.block">
                 <nav :class="$style.blockMenu">
-                    <NuxtLink to="/">
-                        Правила квеста
-                    </NuxtLink>
-                    <NuxtLink to="/">
+                    <a href="https://astrazeneca.ru/confidentiality.html" target="_blank">
                         Политика конфиденциальности
-                    </NuxtLink>
-                    <NuxtLink to="/">
+                    </a>
+                    <a href="https://az-most.ru/medication/Symbicortturbuhaler" target="_blank">
                         О препарате
-                    </NuxtLink>
+                    </a>
                 </nav>
                 <div :class="$style.blockLogoDesign">
                     <LogoDesign />

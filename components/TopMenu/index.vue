@@ -10,9 +10,6 @@
                 </div>
             </div>
             <div :class="$style.buttons">
-                <div :class="$style.button">
-                    <IconVolumeOff />
-                </div>
                 <div :class="$style.button" @click="isShow = !isShow">
                     <IconMenu />
                 </div>
@@ -28,28 +25,23 @@
         >
             <div :class="$style.menuOverlay" @click="isShow = false" />
             <nav :class="$style.menuInner">
-                <NuxtLink to="/">
-                    Правила квеста
-                </NuxtLink>
-                <NuxtLink to="/">
+                <a href="https://astrazeneca.ru/confidentiality.html" target="_blank">
                     Политика конфиденциальности
-                </NuxtLink>
-                <NuxtLink to="/">
+                </a>
+                <a href="https://az-most.ru/medication/Symbicortturbuhaler" target="_blank">
                     О препарате
-                </NuxtLink>
+                </a>
             </nav>
         </div>
     </header>
 </template>
 
 <script>
-import IconVolumeOff from '~/assets/svg/icon-volume-off.svg'
 import IconMenu from '~/assets/svg/icon-menu.svg'
 
 export default {
     name: 'TopMenu',
     components: {
-        IconVolumeOff,
         IconMenu
     },
     data: function () {
