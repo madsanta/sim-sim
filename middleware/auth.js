@@ -1,7 +1,7 @@
 export default async function ({ $axios, redirect }) {
     const host = window.location.origin
     const path = window.location.pathname
-    const uniqStaffToken = '97abecdbffd7342643eb8baaad107967'
+    const uniqStaffToken = '9ce7d8135916f3d4dcc638c7b8279419'
 
     const params = new URL(window.location.toString()).searchParams
     const paramsAccessToken = params.get('access_token')

@@ -24,22 +24,14 @@
                         О препарате
                     </a>
                 </nav>
-                <div :class="$style.blockLogoDesign">
-                    <LogoDesign />
-                </div>
             </div>
         </div>
     </footer>
 </template>
 
 <script>
-import LogoDesign from '~/assets/svg/logo-design.svg'
-
 export default {
-    name: 'FooterBlock',
-    components: {
-        LogoDesign
-    }
+    name: 'FooterBlock'
 }
 </script>
 

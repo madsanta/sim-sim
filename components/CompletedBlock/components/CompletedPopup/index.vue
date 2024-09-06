@@ -53,8 +53,22 @@
                         <div :class="[$style.popupImagesLogo, 'onlyDesktop']">
                             <img src="~/assets/img/propulmo.png">
                         </div>
-                        <ButtonAction :class="[$style.button, 'onlyMobile']" title="Скачать в App Store" preset="app" />
-                        <ButtonAction :class="[$style.button, 'onlyMobile']" title="Скачать в Google Play" preset="google" />
+                        <div :class="[$style.popupImagesQRs, 'onlyDesktop']">
+                            <div :class="$style.popupImagesQR">
+                                <IconAppQR />
+                                <div :class="$style.popupImagesQRText">
+                                    App Store
+                                </div>
+                            </div>
+                            <div :class="$style.popupImagesQR">
+                                <IconGoogleQR />
+                                <div :class="$style.popupImagesQRText">
+                                    Google Play
+                                </div>
+                            </div>
+                        </div>
+                        <ButtonAction :class="[$style.button, 'onlyMobile']" title="Скачать в App Store" preset="app" href="https://protect-de.mimecast.com/s/kX3pC08wmMSgwLD7qFwauIe?domain=apps.apple.com" target="_blank" />
+                        <ButtonAction :class="[$style.button, 'onlyMobile']" title="Скачать в Google Play" preset="google" href="https://play.google.com/store/apps/details?id=com.dan99dm.astra" target="_blank" />
                     </div>
                 </div>
             </div>
@@ -71,6 +85,8 @@ import Icon1 from '~/assets/svg/icon-completed-1.svg'
 import Icon2 from '~/assets/svg/icon-completed-2.svg'
 import Icon3 from '~/assets/svg/icon-completed-3.svg'
 import Icon4 from '~/assets/svg/icon-completed-4.svg'
+import IconAppQR from '~/assets/svg/icon-qr-app.svg'
+import IconGoogleQR from '~/assets/svg/icon-qr-google.svg'
 
 export default {
     name: 'CompletedPopup',
@@ -81,7 +97,9 @@ export default {
         Icon1,
         Icon2,
         Icon3,
-        Icon4
+        Icon4,
+        IconAppQR,
+        IconGoogleQR
     },
     mixins: [modal]
 }
@@ -154,7 +172,7 @@ export default {
         }
 
         &Content {
-            width: rem(450);
+            width: rem(420);
 
             @include mobile {
                 width: 100%;
@@ -162,6 +180,7 @@ export default {
         }
 
         &Title {
+            width: rem(450);
             font-size: rem(35);
             line-height: 1.2;
             font-weight: $fw-bold;
@@ -249,6 +268,24 @@ export default {
                 width: rem(186);
                 margin-left: auto;
                 margin-right: auto;
+            }
+
+            &QRs {
+                display: flex;
+                justify-content: space-between;
+                margin-top: rem(20);
+            }
+
+            &QR {
+                width: rem(148);
+
+                &Text {
+                    text-align: center;
+                    margin-top: rem(5);
+                    color: $c-black;
+
+                    @include text;
+                }
             }
 
             .button {
