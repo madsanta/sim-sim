@@ -1,6 +1,9 @@
 <template>
     <footer class="footer">
         <div class="content">
+            <div class="footer__disclaimer">
+                Номер одобрения RU-21455 Дата одобрения 30.07.2024 Дата истечения 29.07.2026
+            </div>
             <div
                 class="footer__logo"
                 @click="toMenuItemFooter('https://az-most.ru/', 'Лого в футере')"
@@ -281,10 +284,10 @@
                 </div>
                 © ООО «АстраЗенека Фармасьютикалз», {{ getYear }}.
                 <span class="ml-md-0 ml-auto mt-md-4 mt-0">
-                    Номер одобрения <span>RU-21455</span>
+                    Номер одобрения: <span>RU-15024</span>
                     <br class="d-md-none">
-                    Дата одобрения  <span>30.07.2024</span> <br class="d-md-none">
-                    Дата истечения 29.07.2026
+                    Дата одобрения:  <span>16.11.2022</span> <br class="d-md-none">
+                    Дата истечения: 15.11.2024
                 </span>
             </div>
         </div>
@@ -328,6 +331,8 @@ export default {
     margin-top: auto;
     padding: 32px 0;
     background-color: #1f1f1f;
+    position: relative;
+    z-index: $zi-content;
 
     .content {
         @include wrapper;
@@ -371,6 +376,20 @@ export default {
 
     a {
         color: inherit;
+    }
+
+    &__disclaimer {
+        position: absolute;
+        color: $c-white;
+        top: calc(-30px + rem(-15));
+        transform: translate(0, -100%);
+        font-size: rem(12);
+        line-height: 1.2;
+
+        @include mobile {
+            top: calc(-30px + rem(-10));
+            font-size: rem(8);
+        }
     }
 
     &__logo {

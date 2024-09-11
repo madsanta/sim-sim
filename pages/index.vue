@@ -64,14 +64,7 @@ export default {
 <style module lang="scss">
     .page {
         position: relative;
-        height: calc(100vh - rem(116));
-        min-height: rem(800 - 116);
-        background: linear-gradient(to right bottom, #492227, #073150);
-
-        @include mobile {
-            height: 100svh;
-            min-height: rem(640);
-        }
+        height: 100%;
 
         .bg {
             @include absoluteBlock;

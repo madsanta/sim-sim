@@ -2,7 +2,9 @@
     <div>
         <div id="root" :class="$style.root">
             <TopMenu />
-            <Nuxt />
+            <div :class="$style.page">
+                <Nuxt />
+            </div>
             <FooterAstra :class="$style[typeSection]" />
         </div>
         <div id="modals" />
@@ -33,6 +35,18 @@ export default {
 </script>
 
 <style module lang="scss">
+    .page {
+        position: relative;
+        height: 100vh;
+        min-height: rem(800 - 116);
+        background: linear-gradient(to right bottom, #492227, #073150);
+
+        @include mobile {
+            height: 100svh;
+            min-height: rem(640);
+        }
+    }
+
     .helloIntro {
         @include mobile {
             display: none;
