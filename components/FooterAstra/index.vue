@@ -2,7 +2,7 @@
     <footer class="footer">
         <div class="content">
             <div class="footer__disclaimer">
-                Номер одобрения RU-21455 Дата одобрения 30.07.2024 Дата истечения 29.07.2026
+                Номер одобрения: RU-21008 Дата одобрения: 03.05.2024 Дата истечения: 03.05.2026
             </div>
             <div
                 class="footer__logo"
