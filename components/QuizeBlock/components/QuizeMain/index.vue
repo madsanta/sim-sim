@@ -18,10 +18,10 @@
                         <div :class="$style.questionPagination">
                             <span>Вопрос 0{{ numberQuestion }}</span>/0{{ questionsLength }}
                         </div>
-                        <div v-if="status === questionStatus.initial" :class="$style.questionTitle" v-html="question.title" />
-                        <div v-if="status === questionStatus.initial" :class="$style.questionDescription" v-html="question.description" />
+                        <div v-if="status !== questionStatus.success" :class="$style.questionTitle" v-html="question.title" />
+                        <div v-if="status !== questionStatus.success" :class="$style.questionDescription" v-html="question.description" />
                     </div>
-                    <div v-if="status === questionStatus.initial" :class="$style.questionAnswers">
+                    <div v-if="status !== questionStatus.success" :class="$style.questionAnswers">
                         <div :class="[$style.questionAnswersWrapper, {[$style.isColumns]: question.answers.length > 6}]">
                             <div
                                 v-for="(q, index) in question.answers"
@@ -30,7 +30,7 @@
                                     $style.questionAnswer,
                                     $style[questionType],
                                     {
-                                        [$style.checked]: !!answers[index]
+                                        [$style.checked]: !!currentAnswers[index]
                                     }
                                 ]"
                                 @click="chooseAnswer(index)"
@@ -47,14 +47,6 @@
                             v-html="question.caption"
                         />
                     </div>
-                    <div v-if="status === questionStatus.failed" :class="$style.questionFailed">
-                        <div :class="$style.questionFailedTitle">
-                            {{ question.failed.title }}
-                        </div>
-                        <div :class="$style.questionFailedDescription">
-                            {{ question.failed.description }}
-                        </div>
-                    </div>
                     <div v-if="question.success.title && status === questionStatus.success" :class="$style.questionSuccess">
                         <div :class="$style.questionSuccessTitle">
                             {{ question.success.title }}
@@ -66,10 +58,8 @@
                     </div>
                 </div>
                 <div :class="$style.buttons">
-                    <ButtonAction v-if="status === questionStatus.initial" :class="$style.button" :is-disable="!userAnswersLength" title="Ответить" @handleClick="sendAnswers" />
-                    <ButtonAction v-if="status === questionStatus.failed" :class="$style.button" title="Попробовать еще" @handleClick="onRetry" />
-                    <ButtonAction v-if="status === questionStatus.success" :class="$style.button" title="Продолжить" @handleClick="onContinue" />
-                    <template v-if="status === questionStatus.initial">
+                    <template v-if="status !== questionStatus.success">
+                        <ButtonAction :class="$style.button" :is-disable="!userAnswersLength" title="Ответить" @handleClick="sendAnswers" />
                         <ButtonAction
                             v-for="(data, index) in question.extraData"
                             :key="index"
@@ -79,13 +69,12 @@
                             @handleClick="openTip(data)"
                         />
                     </template>
+                    <ButtonAction v-if="status === questionStatus.success" :class="$style.button" title="Продолжить" @handleClick="onContinue" />
                 </div>
             </div>
             <div :class="$style.door">
                 <div :class="$style.doorInner">
                     <img :class="[$style.doorStart, 'onlyDesktop']" :src="require(`~/assets/img/${type}/door-${numberQuestion}.png`)">
-                    <img :class="[$style.doorFailed, 'onlyDesktop']" :src="require(`~/assets/img/${type}/door-${numberQuestion}-failed.png`)">
-                    <img :class="[$style.doorFailed, 'onlyMobile']" :src="require(`~/assets/img/${type}/door-${numberQuestion}-failed-mobile.png`)">
                     <img v-if="question.success.title" :class="[$style.doorSuccess, 'onlyDesktop']" :src="require(`~/assets/img/${type}/door-${numberQuestion}-success.png`)">
                     <img v-if="question.success.title" :class="[$style.doorSuccess, 'onlyMobile']" :src="require(`~/assets/img/${type}/door-${numberQuestion}-success-mobile.png`)">
                 </div>
@@ -93,7 +82,7 @@
         </div>
         <ModalVideo
             :is-show="isShowVideo"
-            title="Ответ верный!"
+            :title="status !== questionStatus.failed ? 'Ответ верный!' : 'Ответ неверный!'"
             :src="question.success.video"
             @handleClosed="closeVideo"
         />
@@ -155,9 +144,10 @@ export default {
             isShowVideo: false,
             isShowTip: false,
             status: questionStatus.initial,
-            answers: {},
-            isShowedFailedScreen: false,
-            tip: null
+            currentAnswers: {},
+            answers: [],
+            tip: null,
+            idTimer: 0
         }
     },
     computed: {
@@ -165,7 +155,7 @@ export default {
             return this.indexQuestion + 1
         },
         userAnswersLength () {
-            return Object.keys(this.answers).length
+            return Object.keys(this.currentAnswers).length
         },
         questionStatus () {
             return questionStatus
@@ -174,48 +164,56 @@ export default {
             return this.question.type
         }
     },
+    mounted () {
+        this.continueTime()
+    },
+    destroyed () {
+        this.pauseTime()
+    },
     methods: {
         chooseAnswer (index) {
-            const answers = this.questionType === 'checkbox' ? { ...this.answers } : {}
+            const answers = this.questionType === 'checkbox' ? { ...this.currentAnswers } : {}
 
             if (!answers[index]) {
                 answers[index] = {
                     id: index,
+                    title: this.question.answers?.[index]?.title,
                     isCorrect: this.question.answers?.[index]?.isCorrect
                 }
             } else {
                 delete answers[index]
             }
 
-            this.answers = { ...answers }
+            this.currentAnswers = { ...answers }
         },
         sendAnswers () {
-            const answers = Object.values(this.answers)
+            const answers = Object.values(this.currentAnswers)
             const correctAnswers = Object.values(this.question.answers).filter(answer => answer.isCorrect)
             const onlyCorrectUserAnswers = answers.every(answer => answer.isCorrect)
 
-            if (onlyCorrectUserAnswers && answers.length === correctAnswers.length) {
-                if (!this.isShowedFailedScreen) {
-                    this.incrementSuccesses()
-                }
+            this.addAnswer({
+                question: this.question.title,
+                answer: answers.map(answer => answer.title)
+            })
 
-                this.openVideo()
+            this.pauseTime()
+
+            if (onlyCorrectUserAnswers && answers.length === correctAnswers.length) {
+                this.incrementSuccesses()
             } else {
                 this.status = questionStatus.failed
             }
-        },
-        onRetry () {
-            this.answers = {}
-            this.status = questionStatus.initial
-            this.isShowedFailedScreen = true
-        },
-        onContinue () {
-            this.nextQuestion()
 
-            this.isShowedFailedScreen = false
+            this.openVideo()
+        },
+        async onContinue () {
+            this.continueTime()
+
             this.status = questionStatus.initial
             this.isShowVideo = false
-            this.answers = {}
+            this.currentAnswers = {}
+
+            await this.nextQuestion()
         },
         openVideo () {
             this.isShowVideo = true
@@ -243,9 +241,19 @@ export default {
             this.isShowTip = false
             this.tip = {}
         },
+        continueTime () {
+            this.idTimer = setInterval(() => {
+                this.incrementTime()
+            }, 100) // 1/10 секунды
+        },
+        pauseTime () {
+            clearInterval(this.idTimer)
+        },
         ...mapMutations({
             incrementSuccesses: 'incrementSuccesses',
-            nextQuestion: 'nextQuestion'
+            nextQuestion: 'nextQuestion',
+            addAnswer: 'addAnswer',
+            incrementTime: 'incrementTime'
         })
     }
 }

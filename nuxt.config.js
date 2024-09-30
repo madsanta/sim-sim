@@ -4,9 +4,17 @@ export default {
 
     // Target: https://go.nuxtjs.dev/config-target
     target: 'static',
+    server: {
+        port: 5501
+    },
     router: {
         middleware: 'auth'
         // base: '/sim-sim/'
+    },
+
+    publicRuntimeConfig: {
+        baseApiUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_URL : process.env.BASE_DEV_API_URL,
+        baseApiSSOUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_SSO_URL : process.env.BASE_DEV_API_SSO_URL
     },
 
     // Global page headers: https://go.nuxtjs.dev/config-head

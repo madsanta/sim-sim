@@ -10,13 +10,18 @@ export const state = () => ({
     branch: {},
     user: {
         name: '',
+        answers: [],
+        bearer: '',
         successCount: 0,
-        startTime: 0,
-        endTime: 0
-    }
+        time: 0
+    },
+    bestPlayer: ''
 })
 
 export const getters = {
+    bearer (state) {
+        return state.user.bearer
+    },
     typeSection (state) {
         return state.typeSection
     },
@@ -44,15 +49,21 @@ export const getters = {
     successCount (state) {
         return state.user.successCount
     },
-    startTime (state) {
-        return state.user.startTime
+    currentTime (state) {
+        return state.user.time
     },
-    endTime (state) {
-        return state.user.endTime
+    bestPlayer (state) {
+        return state.bestPlayer
     }
 }
 
 export const mutations = {
+    setBearer (state, token) {
+        state.user = {
+            ...state.user,
+            bearer: token
+        }
+    },
     setTypeSection (state, type) {
         state.isIntroShowed = false
         state.typeSection = type
@@ -60,22 +71,47 @@ export const mutations = {
     setShowedIntro (state) {
         state.isIntroShowed = true
     },
+    incrementIndexQuestion (state) {
+        let indexQuestion = state.indexQuestion
+        indexQuestion++
+
+        state.indexQuestion = indexQuestion
+    },
     setCurrentWay (state, way) {
         state.currentTypeWay = way
         state.branch = dataQuize.branches[way] ?? {}
         state.indexChapter = 0
         state.indexQuestion = 0
+        state.user = {
+            bearer: state.user.bearer,
+            name: state.user.name,
+            successCount: 0,
+            time: 0,
+            answers: []
+        }
         this.commit('setTypeSection', this.getters.intro.type)
     },
-    nextQuestion (state) {
-        state.indexQuestion++
+    addAnswer (state, answer) {
+        const answers = [...state.user.answers]
 
-        if (state.indexQuestion > this.getters.questionsLength - 1) {
+        answers.push(answer)
+
+        state.user = {
+            ...state.user,
+            answers: [...answers]
+        }
+    },
+    async nextQuestion (state) {
+        if (this.getters.indexQuestion + 1 > this.getters.questionsLength - 1) {
+            await this.dispatch('postResult')
             this.commit('setTypeSection', types.completed)
+
             return
         }
 
-        if (!this.getters.intro.questions.includes(state.indexQuestion + 1)) {
+        this.commit('incrementIndexQuestion')
+
+        if (!this.getters.intro.questions.includes(this.getters.indexQuestion + 1)) {
             state.indexChapter++
             this.commit('setTypeSection', this.getters.intro.type)
         }
@@ -91,23 +127,62 @@ export const mutations = {
         }
     },
     incrementSuccesses (state) {
+        let successCount = state.user.successCount
+        successCount++
+
         state.user = {
             ...state.user,
-            successCount: state.user.successCount++
+            successCount
         }
     },
-    start (state) {
+    incrementTime (state) {
+        let time = state.user.time
+        time++
+
         state.user = {
             ...state.user,
-            startTime: +new Date(),
-            successCount: 0,
-            endTime: 0
+            time
         }
     },
-    end (state) {
-        state.user = {
-            ...state.user,
-            endTime: +new Date()
+    setBestPlayer (state, name) {
+        state.bestPlayer = name
+    }
+}
+
+export const actions = {
+    async postResult ({ state }) {
+        const percentage = this.getters.successCount / this.getters.questionsLength * 100
+
+        try {
+            await this.$axios.post(`${this.$config.baseApiUrl}/api/sim/quiz_result/`, {
+                quiz: state.currentTypeWay,
+                duration_time: Math.round(this.getters.currentTime / 10),
+                percentage: Math.round(percentage * 100) / 100,
+                answers: [...state.user.answers]
+            }, {
+                headers: {
+                    Authorization: `Bearer ${state.user.bearer}`
+                }
+            })
+        } catch (e) {
+            // eslint-disable-next-line
+            console.log(e)
+        }
+    },
+    async fetchBestPlayer ({ state }) {
+        try {
+            const res = await this.$axios.get(`${this.$config.baseApiUrl}/api/sim/${this.getters.currentTypeWay}/top`, {
+                headers: {
+                    Authorization: `Bearer ${state.user.bearer}`
+                }
+            })
+
+            if (res.status === 200 && res.data) {
+                this.commit('setBestPlayer', res.data.name)
+            }
+        } catch (e) {
+            // eslint-disable-next-line
+            console.log(e)
         }
     }
 }

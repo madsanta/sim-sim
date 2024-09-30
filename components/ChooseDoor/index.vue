@@ -95,7 +95,7 @@
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapMutations, mapActions } from 'vuex'
 import { types, ways } from '~/utils/types'
 import ButtonAction from '~/components/common/ButtonAction/index.vue'
 import IconEnter from '~/assets/svg/icon-enter-circle.svg'
@@ -112,6 +112,9 @@ export default {
         return {
             way: '' // branch1 || branch2
         }
+    },
+    async fetch () {
+        await this.fetchBestPlayer()
     },
     computed: {
         types () {
@@ -130,6 +133,9 @@ export default {
         },
         ...mapMutations({
             setCurrentWay: 'setCurrentWay'
+        }),
+        ...mapActions({
+            fetchBestPlayer: 'fetchBestPlayer'
         })
     }
 }

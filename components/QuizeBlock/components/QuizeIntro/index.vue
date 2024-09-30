@@ -5,6 +5,10 @@
             <div :class="$style.bgInner">
                 <img class="onlyDesktop" :src="require(`~/assets/img/${type}/intro-bg.jpg`)">
                 <img class="onlyMobile" :src="require(`~/assets/img/${type}/intro-bg-mobile.jpg`)">
+                <div v-if="!!bestPlayer.length" :class="[$style.bestPlayer, 'onlyDesktop']">
+                    {{ bestPlayer }}
+                    <img src="~/assets/img/crown-1.png">
+                </div>
             </div>
         </div>
         <div :class="$style.content">
@@ -77,10 +81,6 @@ export default {
         }
     },
     computed: {
-        ...mapGetters({
-            intro: 'intro',
-            indexQuestion: 'indexQuestion'
-        }),
         title () {
             return this.intro.title
         },
@@ -95,11 +95,15 @@ export default {
         },
         types () {
             return types
-        }
+        },
+        ...mapGetters({
+            intro: 'intro',
+            indexQuestion: 'indexQuestion',
+            bestPlayer: 'bestPlayer'
+        })
     },
     methods: {
         onContinue () {
-            this.start()
             this.setShowedIntro()
         },
         openVideo () {
@@ -110,7 +114,6 @@ export default {
             this.setShowedIntro()
         },
         ...mapMutations({
-            start: 'start',
             setShowedIntro: 'setShowedIntro'
         })
     }
@@ -127,6 +130,8 @@ export default {
     .bg {
         @include absoluteBlock;
 
+        z-index: $zi-bg;
+
         &Inner {
             position: relative;
             width: 100%;
@@ -135,6 +140,50 @@ export default {
             img {
                 @include absoluteCoverImg();
             }
+        }
+    }
+
+    .bestPlayer {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        color: $c-white;
+
+        @include header;
+
+        .ozonic & {
+            top: rem(20);
+            left: rem(330);
+        }
+
+        .kontur & {
+            top: rem(230);
+            right: rem(150);
+        }
+
+        .triggeron & {
+            top: rem(135);
+            right: rem(450);
+        }
+
+        .smoglus & {
+            top: rem(190);
+            right: rem(485);
+        }
+
+        .allergenezium & {
+            top: rem(125);
+            right: rem(400);
+        }
+
+        .vinterius & {
+            top: rem(165);
+            right: rem(335);
+        }
+
+        img {
+            position: relative;
+            width: rem(60);
         }
     }
 

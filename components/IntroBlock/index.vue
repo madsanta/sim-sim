@@ -60,28 +60,39 @@
                 </div>
             </div>
         </div>
+        <NamePopup :is-show="isShow" @handleClosed="isShow = false" />
     </section>
 </template>
 
 <script>
-import { mapMutations } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
+import NamePopup from './components/NamePopup/index.vue'
 import { types } from '~/utils/types'
 import ButtonAction from '~/components/common/ButtonAction/index.vue'
 
 export default {
     name: 'IntroBlock',
     components: {
-        ButtonAction
+        ButtonAction,
+        NamePopup
     },
-
     data: function () {
         return {
-            isContinued: false
+            isContinued: false,
+            isShow: false
         }
     },
     computed: {
         types () {
             return types
+        },
+        ...mapGetters({
+            userName: 'userName'
+        })
+    },
+    mounted () {
+        if (!this.userName) {
+            this.isShow = true
         }
     },
     methods: {

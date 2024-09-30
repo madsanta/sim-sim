@@ -1,33 +1,29 @@
 <template>
-    <div>
-        <transition>
-            <Teleport v-if="isShow" to="#modals">
-                <div :class="$style.modal">
-                    <div :class="$style.modalOverload" />
-                    <div :class="[$style.modalContent, {[$style.isTitle]: title}]">
-                        <div v-if="title" :class="[$style.modalContentLeft, 'onlyDesktop']">
-                            <div :class="$style.modalContentLeftTitle">
-                                {{ title }}
-                            </div>
-                            <ButtonAction :class="$style.modalContentLeftButton" title="Продолжить" @handleClick="closeModal" />
-                        </div>
-                        <div :class="$style.modalContentRight">
-                            <div :class="[$style.modalClose, 'onlyMobile']" @click="closeModal">
-                                <IconClose />
-                            </div>
-                            <div v-if="title" :class="[$style.modalContentCaption, 'onlyDesktop']">
-                                короткое видео от эксперта
-                            </div>
-                            <video controls crossorigin autoplay playsinline>
-                                <source :src="src" type="video/mp4">
-                            </video>
-                            <ButtonAction v-if="!title" :class="[$style.modalContentRightButton, 'onlyDesktop']" title="Пропустить видео" @handleClick="closeModal" />
-                        </div>
+    <Teleport v-if="isShow" to="#modals">
+        <div :class="$style.modal">
+            <div :class="$style.modalOverload" />
+            <div :class="[$style.modalContent, {[$style.isTitle]: title}]">
+                <div v-if="title" :class="[$style.modalContentLeft, 'onlyDesktop']">
+                    <div :class="$style.modalContentLeftTitle">
+                        {{ title }}
                     </div>
+                    <ButtonAction :class="$style.modalContentLeftButton" title="Продолжить" @handleClick="closeModal" />
                 </div>
-            </Teleport>
-        </transition>
-    </div>
+                <div :class="$style.modalContentRight">
+                    <div :class="[$style.modalClose, 'onlyMobile']" @click="closeModal">
+                        <IconClose />
+                    </div>
+                    <div v-if="title" :class="[$style.modalContentCaption, 'onlyDesktop']">
+                        короткое видео от эксперта
+                    </div>
+                    <video controls crossorigin autoplay playsinline>
+                        <source :src="src" type="video/mp4">
+                    </video>
+                    <ButtonAction v-if="!title" :class="[$style.modalContentRightButton, 'onlyDesktop']" title="Пропустить видео" @handleClick="closeModal" />
+                </div>
+            </div>
+        </div>
+    </Teleport>
 </template>
 
 <script>

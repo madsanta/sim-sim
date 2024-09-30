@@ -1,11 +1,11 @@
-export default async function ({ $axios, redirect }) {
+export default async function ({ store, $axios, redirect, $config }) {
     const host = window.location.origin
     const path = window.location.pathname
     const uniqStaffToken = '9ce7d8135916f3d4dcc638c7b8279419'
 
     const params = new URL(window.location.toString()).searchParams
     const paramsAccessToken = params.get('access_token')
-    const paramsRefreshToken = params.get('refresh_token')
+    const paramsRefreshToken = params.get('refresh')
 
     if (paramsAccessToken === uniqStaffToken) {
         if (path !== '/') {
@@ -29,7 +29,7 @@ export default async function ({ $axios, redirect }) {
 
     if (!!accessToken && accessToken !== 'null') {
         try {
-            const res = await $axios.get('https://az-most.ru/api/auth/session', {
+            const res = await $axios.get(`${$config.baseApiUrl}/api/auth/session`, {
                 headers: {
                     Authorization: `Bearer ${accessToken}`,
                     'Content-Type': 'application/json'
@@ -38,8 +38,9 @@ export default async function ({ $axios, redirect }) {
 
             if (res.status === 200) {
                 localStorage.setItem('accessToken', accessToken)
+                store.commit('setBearer', accessToken)
             } else if (res.status === 401) {
-                const refresh = await $axios.post('https://sso.az-most.ru/api/token/refresh/',
+                const refresh = await $axios.post(`${$config.baseApiSSOUrl}/api/token/refresh/`,
                     {
                         refresh: refreshToken || ''
                     },
@@ -52,6 +53,7 @@ export default async function ({ $axios, redirect }) {
                 if (refresh.status === 200) {
                     localStorage.setItem('accessToken', refresh.data?.access_token)
                     localStorage.setItem('refreshToken', refresh.data?.refresh_token)
+                    store.commit('setBearer', refresh.data?.access_token)
                 } else if (!path.includes('login')) {
                     redirect(`${host}/login`)
                 }

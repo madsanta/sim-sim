@@ -10,7 +10,7 @@
         <HelloIntro />
         <div :class="$style.popupWrapper">
             <div :class="$style.popup">
-                <ButtonAction title="Войти" :href="`https://sso.az-most.ru/signin?source=${source}&next_url=${next}`" />
+                <ButtonAction title="Войти" :href="`${$config.baseApiSSOUrl}/signin?source=${source}&next_url=${next}`" />
             </div>
             <div :class="$style.popupOverflow" />
         </div>

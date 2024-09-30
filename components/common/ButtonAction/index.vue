@@ -27,7 +27,7 @@ export default {
     props: {
         preset: {
             type: String,
-            default: 'red' // ['red', 'app', 'google', 'white']
+            default: 'red' // ['red', 'app', 'google', 'white', 'whiteWithoutIcon']
         },
         title: {
             type: String,
@@ -103,6 +103,11 @@ export default {
         }
 
         &.white {
+            background-color: $c-white;
+            color: $c-black;
+        }
+
+        &.whiteWithoutIcon {
             background-color: $c-white;
             color: $c-black;
         }

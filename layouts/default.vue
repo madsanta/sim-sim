@@ -30,6 +30,11 @@ export default {
         ...mapGetters({
             typeSection: 'typeSection'
         })
+    },
+    mounted () {
+        setTimeout(() => {
+            window.location.reload()
+        }, 1000 * 60 * 60 * 24) // every day reload
     }
 }
 </script>
@@ -38,12 +43,12 @@ export default {
     .page {
         position: relative;
         height: 100vh;
-        min-height: rem(800 - 116);
+        min-height: rem(780);
         background: linear-gradient(to right bottom, #492227, #073150);
 
         @include mobile {
             height: 100svh;
-            min-height: rem(640);
+            min-height: rem(700);
         }
     }
 

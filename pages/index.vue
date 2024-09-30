@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapMutations } from 'vuex'
 import { types } from '~/utils/types'
 import FireFly from '~/components/canvases/FireFly/index.vue'
 import LightningCanvas from '~/components/canvases/LightningCanvas/index.vue'
@@ -47,6 +47,26 @@ export default {
         ChooseDoor,
         QuizeBlock
     },
+    async fetch () {
+        if (this.userName) {
+            return
+        }
+
+        try {
+            const res = await this.$axios.get(`${this.$config.baseApiUrl}/api/sim/username/`, {
+                headers: {
+                    Authorization: `Bearer ${this.bearer}`
+                }
+            })
+
+            if (res.status === 200) {
+                this.setName(res.data.name)
+            }
+        } catch (e) {
+            // eslint-disable-next-line
+            console.log(e)
+        }
+    },
     computed: {
         types () {
             return types
@@ -55,7 +75,14 @@ export default {
             return [types.ozonic, types.kontur, types.triggeron, types.smoglus, types.allergenezium, types.vinterius]
         },
         ...mapGetters({
-            typeSection: 'typeSection'
+            typeSection: 'typeSection',
+            bearer: 'bearer',
+            userName: 'userName'
+        })
+    },
+    methods: {
+        ...mapMutations({
+            setName: 'setUserName'
         })
     }
 }
