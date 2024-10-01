@@ -171,14 +171,14 @@ export const actions = {
     },
     async fetchBestPlayer ({ state }) {
         try {
-            const res = await this.$axios.get(`${this.$config.baseApiUrl}/api/sim/${this.getters.currentTypeWay}/top`, {
+            const res = await this.$axios.get(`${this.$config.baseApiUrl}/api/sim/${this.getters.currentTypeWay}/top/`, {
                 headers: {
                     Authorization: `Bearer ${state.user.bearer}`
                 }
             })
 
             if (res.status === 200 && res.data) {
-                this.commit('setBestPlayer', res.data.name)
+                this.commit('setBestPlayer', res.data.user)
             }
         } catch (e) {
             // eslint-disable-next-line

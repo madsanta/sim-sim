@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import QuizeIntro from './components/QuizeIntro/index.vue'
 import QuizeMain from './components/QuizeMain/index.vue'
 
@@ -29,6 +29,9 @@ export default {
             required: true
         }
     },
+    async fetch () {
+        await this.fetchBestPlayer()
+    },
     computed: {
         ...mapGetters({
             isIntroShowed: 'isIntroShowed',
@@ -36,6 +39,11 @@ export default {
             indexQuestion: 'indexQuestion',
             questionsLength: 'questionsLength',
             question: 'question'
+        })
+    },
+    methods: {
+        ...mapActions({
+            fetchBestPlayer: 'fetchBestPlayer'
         })
     }
 }

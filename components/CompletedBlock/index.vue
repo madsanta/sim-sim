@@ -119,9 +119,9 @@ export default {
             }
 
             return [
-                ...this.table.slice(0, currentPosition - 1),
+                ...this.table.slice(0, currentPosition),
                 userData,
-                ...this.table.slice(currentPosition)
+                ...this.table.slice(currentPosition + 1)
             ]
         },
         result () {
@@ -357,6 +357,7 @@ export default {
                     max-width: calc(100% - rem(22) - rem(8));
                     text-overflow: ellipsis;
                     overflow: hidden;
+                    white-space: nowrap;
 
                     .isTop & {
                         max-width: calc(100% - rem(22) - rem(8) - rem(32));
