@@ -177,12 +177,19 @@ export const actions = {
                 }
             })
 
-            if (res.status === 200 && res.data) {
-                this.commit('setBestPlayer', res.data.user)
+            if (res.status === 200) {
+                let user = ''
+
+                if (res.data.user) {
+                    user = res.data.user
+                }
+
+                this.commit('setBestPlayer', user)
             }
         } catch (e) {
             // eslint-disable-next-line
             console.log(e)
+            this.commit('setBestPlayer', '')
         }
     }
 }

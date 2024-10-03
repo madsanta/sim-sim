@@ -119,9 +119,9 @@ export default {
             }
 
             return [
-                ...this.table.slice(0, currentPosition),
+                ...this.table.slice(0, currentPosition - 1),
                 userData,
-                ...this.table.slice(currentPosition + 1)
+                ...this.table.slice(currentPosition)
             ]
         },
         result () {
