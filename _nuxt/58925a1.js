@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[23],{399:function(o,n,w){o.exports=w.p+"img/propulmo.e44cd29.png"}}]);
