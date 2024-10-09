@@ -8,8 +8,8 @@ export default {
         port: 5501
     },
     router: {
-        middleware: 'auth'
-        // base: '/sim-sim/'
+        middleware: 'auth',
+        base: '/sim-sim/'
     },
 
     publicRuntimeConfig: {
