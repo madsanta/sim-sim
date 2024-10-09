@@ -13,8 +13,10 @@ export default {
     },
 
     publicRuntimeConfig: {
-        baseApiUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_URL : process.env.BASE_DEV_API_URL,
-        baseApiSSOUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_SSO_URL : process.env.BASE_DEV_API_SSO_URL
+        // baseApiUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_URL : process.env.BASE_DEV_API_URL,
+        // baseApiSSOUrl: process.env.NODE_ENV === 'production' ? process.env.BASE_API_SSO_URL : process.env.BASE_DEV_API_SSO_URL
+        baseApiUrl: process.env.BASE_DEV_API_URL,
+        baseApiSSOUrl: process.env.BASE_DEV_API_SSO_URL
     },
 
     // Global page headers: https://go.nuxtjs.dev/config-head
